@@ -54,7 +54,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
  */
 let shark: Sprite = null
 let pirate: Sprite = null
-music.baDing.play()
 scene.setBackgroundColor(8)
 effects.bubbles.startScreenEffect()
 game.showLongText("Collect as many pearls as you can before time runs out.", DialogLayout.Bottom)

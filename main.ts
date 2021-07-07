@@ -14,10 +14,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
         c 3 c c b c c c c c c b c c 3 c 
         c 3 c c c c c c c c c c c c 3 c 
         . f b b c c c c c c c c b b f . 
-        . . f b b c 8 9 9 8 c b b f . . 
-        . . c c c f 9 3 1 9 f c c c . . 
-        . c 3 f f f 9 3 3 9 f f f 3 c . 
-        c 3 f f f f 8 9 9 8 f f f f 3 c 
+        . . f b b c c c c c c b b f . . 
+        . . c c c f f f f f f c c c . . 
+        . c 3 f f f f f f f f f f 3 c . 
+        c 3 f f f f f f f f f f f f 3 c 
         f 3 c c f f f f f f f f c c 3 f 
         f b 3 c b b f b b f b b c 3 b f 
         . c b b 3 3 b 3 3 b 3 3 b b c . 
@@ -35,21 +35,21 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     music.buzzer.play()
 })
 /**
- * Explore:
+ * Explore: (exploded code)
  * 
- * 1) 1 player, 2 food sprites. notice how the score increases too quickly. Drag in a change sprite kind or destroy sprite so that the score only goes up by 1.
+ * 1) 1 player, 2 food sprites. notice how the score increases too quickly on overlap. Drag in a destroy sprite, play sound or set sprite position so that the score only goes up by 1 on overlap.
  * 
- * 2) 1 player, 1 enemy. set the score to be 5. notice how the score decreases too quickly on overlap. drag in a move sprite position or destroy sprite so that the score only goes down by 1. 
+ * 2) 1 player, 1 enemy. set the score to be 5. notice how the score decreases too quickly on overlap. drag in a destroy sprite, play sound or set sprite position so that the score only goes down by 1 on overlap. 
  * 
- * 3)  1 player, 2 foods, 1 enemy.. Exploded code: On Countdown end, game over win. "The game doesn't end even when time runs out! use the code blocks so that the game ends.
+ * 3)1 player, 2 foods, 1 enemy.. Exploded code: On Countdown end, game over win. "The game doesn't end even when time runs out! use the code blocks so that the game ends.
  * 
- * Solve:
+ * Solve: frame it so that it is a solution for ALL cases not just this case.
  * 
- * 1).  the score increases too quickly! fix the bug so that the score only increases by 1 at overlap.
+ * 1). wrong number in the wrong overlap 
  * 
- * 2) sprite kind bug- there is a change score by -1 but the sprite kind is not set to enemy.
+ * 2) wrong number in the countdown - set to 0. 
  * 
- * 3) there is no start countdown block in the on start but there is an on countdown end. "drag in a code block so a timer starts"
+ * 3) set score to 0 is in the food sprite. wrong block.
  */
 let shark: Sprite = null
 let pirate: Sprite = null
@@ -59,6 +59,196 @@ game.showLongText("Collect as many pearls as you can before time runs out.", Dia
 game.showLongText("Stay away from the shark!", DialogLayout.Bottom)
 info.setScore(0)
 info.startCountdown(7)
+let clam1 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam1.setPosition(136, 17)
+let clam2 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam2.setPosition(108, 18)
+let clam3 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam3.setPosition(140, 84)
+let clam4 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam4.setPosition(7, 103)
+let clam5 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam5.setPosition(150, 58)
+let clam6 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam6.setPosition(41, 105)
+let clam7 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam7.setPosition(24, 4)
+let clam8 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam8.setPosition(102, 46)
+let clam9 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam9.setPosition(30, 52)
+let clam10 = sprites.create(img`
+    . . . . . f c c c c f . . . . . 
+    . . c c f b b 3 3 b b f c c . . 
+    . c b 3 3 b b c c b b 3 3 b c . 
+    . f 3 c c c b c c b c c c 3 f . 
+    f c b b c c b c c b c c b b c f 
+    c 3 c c b c c c c c c b c c 3 c 
+    c 3 c c c c c c c c c c c c 3 c 
+    . f b b c c c c c c c c b b f . 
+    . . f b b c 8 9 9 8 c b b f . . 
+    . . c c c f 9 3 1 9 f c c c . . 
+    . c 3 f f f 9 3 3 9 f f f 3 c . 
+    c 3 f f f f 8 9 9 8 f f f f 3 c 
+    f 3 c c f f f f f f f f c c 3 f 
+    f b 3 c b b f b b f b b c 3 b f 
+    . c b b 3 3 b 3 3 b 3 3 b b c . 
+    . . f f f f f f f f f f f f . . 
+    `, SpriteKind.Food)
+clam10.setPosition(97, 96)
 pirate = sprites.create(img`
     . . . . . 5 5 f 5 5 . . . . . . . 
     . . . . 5 f 5 f 5 f 5 . . . . . . 
@@ -79,196 +269,6 @@ pirate = sprites.create(img`
     `, SpriteKind.Player)
 controller.moveSprite(pirate)
 pirate.setStayInScreen(true)
-let clam1 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam1.setPosition(136, 17)
-let clam2 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam2.setPosition(108, 18)
-let clam3 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam3.setPosition(140, 84)
-let clam4 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam4.setPosition(7, 103)
-let clam5 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam5.setPosition(150, 58)
-let clam6 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam6.setPosition(41, 105)
-let clam7 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam7.setPosition(24, 4)
-let clam8 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam8.setPosition(102, 46)
-let clam9 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam9.setPosition(30, 52)
-let clam10 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . c c c c c c c c . . . . 
-    . . c c b b 3 b 3 3 b b c c . . 
-    . c 3 3 b 3 3 b 3 3 3 b 3 3 c . 
-    c d d b 3 3 b 3 3 b 3 3 b d d c 
-    f c c c d d c d d c d d c c c f 
-    f b 3 c c c b c c b c c c 3 b f 
-    . c b b 3 3 b 3 3 b 3 3 b b c . 
-    . . f f f f f f f f f f f f . . 
-    `, SpriteKind.Food)
-clam10.setPosition(97, 96)
 shark = sprites.create(img`
     ...........fffffff...ccfff..........
     ..........fbbbbbbbffcbbbbf..........

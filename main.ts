@@ -5,10 +5,6 @@ info.onCountdownEnd(function () {
     game.over(true)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    music.baDing.play()
-    info.changeScoreBy(1)
-    // or destroy sprite?
-    otherSprite.setKind(SpriteKind.EatenFood)
     otherSprite.setImage(img`
         . . . . . f c c c c f . . . . . 
         . . c c f b b 3 3 b b f c c . . 
@@ -27,6 +23,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
         . c b b 3 3 b 3 3 b 3 3 b b c . 
         . . f f f f f f f f f f f f . . 
         `)
+    music.baDing.playUntilDone()
+    info.changeScoreBy(1)
+    otherSprite.destroy()
 })
 // optional- I thought it may be helpful to show an increase score and a decrease score but i'm not sure if this makes it too complicated. 
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {

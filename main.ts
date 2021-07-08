@@ -1,8 +1,25 @@
 namespace SpriteKind {
     export const EatenFood = SpriteKind.create()
 }
+/**
+ * Explore: (exploded code)
+ * 
+ * 1) 1 player, 2 food sprites. notice how the score increases too quickly on overlap. Drag in a destroy sprite, play sound or set sprite position so that the score only goes up by 1 on overlap.
+ * 
+ * 2) 1 player, 1 enemy. set the score to be 5. notice how the score decreases too quickly on overlap. drag in a destroy sprite, play sound or set sprite position so that the score only goes down by 1 on overlap.
+ * 
+ * 3)1 player, 2 foods, 1 enemy.. Exploded code: On Countdown end, game over win. "The game doesn't end even when time runs out! use the code blocks so that the game ends.
+ * 
+ * Solve: frame it so that it is a solution for ALL cases not just this case.
+ * 
+ * 1). wrong number in the wrong overlap
+ * 
+ * 2) wrong number in the countdown - set to 0.
+ * 
+ * 3) set score to 0 is in the food sprite. wrong block.
+ */
 info.onCountdownEnd(function () {
-    game.over(true)
+    game.over(true, effects.confetti)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.setImage(img`
@@ -27,38 +44,19 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     info.changeScoreBy(1)
     otherSprite.destroy()
 })
-// optional- I thought it may be helpful to show an increase score and a decrease score but i'm not sure if this makes it too complicated. 
+// optional- I thought it may be helpful to show an increase score and a decrease score but i'm not sure if this makes it too complicated.
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     info.changeScoreBy(-1)
     shark.setPosition(142, 107)
     pirate.say("ouch!")
     music.buzzer.play()
 })
-/**
- * Explore: (exploded code)
- * 
- * 1) 1 player, 2 food sprites. notice how the score increases too quickly on overlap. Drag in a destroy sprite, play sound or set sprite position so that the score only goes up by 1 on overlap.
- * 
- * 2) 1 player, 1 enemy. set the score to be 5. notice how the score decreases too quickly on overlap. drag in a destroy sprite, play sound or set sprite position so that the score only goes down by 1 on overlap. 
- * 
- * 3)1 player, 2 foods, 1 enemy.. Exploded code: On Countdown end, game over win. "The game doesn't end even when time runs out! use the code blocks so that the game ends.
- * 
- * Solve: frame it so that it is a solution for ALL cases not just this case.
- * 
- * 1). wrong number in the wrong overlap 
- * 
- * 2) wrong number in the countdown - set to 0. 
- * 
- * 3) set score to 0 is in the food sprite. wrong block.
- */
 let shark: Sprite = null
 let pirate: Sprite = null
 scene.setBackgroundColor(8)
 effects.bubbles.startScreenEffect()
 game.showLongText("Collect as many pearls as you can before time runs out.", DialogLayout.Bottom)
 game.showLongText("Stay away from the shark!", DialogLayout.Bottom)
-info.setScore(0)
-info.startCountdown(7)
 let clam1 = sprites.create(img`
     . . . . . f c c c c f . . . . . 
     . . c c f b b 3 3 b b f c c . . 
@@ -289,3 +287,5 @@ shark = sprites.create(img`
     `, SpriteKind.Enemy)
 shark.setPosition(142, 107)
 shark.follow(pirate, 40)
+info.setScore(0)
+info.startCountdown(7)
